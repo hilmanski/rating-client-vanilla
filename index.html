@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vanilla Rating</title>
+    <link rel="stylesheet" href="/assets/css/classless-tiny.css">
 </head>
 <body>
     <h1>Product List</h1>
@@ -17,7 +18,8 @@
                 .then(response => response.json())
                 .then(function(data){
                     const items = data.items
-
+                
+                //Display Product list
                 $('#products').innerHTML = ''
                     items.forEach(function (item) {
                         let contentEl = `
@@ -30,6 +32,5 @@
                 .catch(err => console.log(err))
     </script>
     
-    <link rel="stylesheet" href="https://classless.de/classless.css">
 </body>
 </html>
