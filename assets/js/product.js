@@ -8,7 +8,7 @@ const key = urlParams.get('key')
 //Display Stars SVG
 //========================
 const stars_svg = drawStarsSVG()
-$('#ratingstar-current').innerHTML = stars_svg
+$('#current-ratingstar').innerHTML = stars_svg
 $('#ratingstar-submission').innerHTML = stars_svg
 
 //========================
@@ -21,31 +21,33 @@ fetch(`${baseURL}/products/${key}`)
         $('h1')[0].innerText = data.title
         $('h2')[0].innerText = data.body
 
-        //Display reviews
         const reviews = data.reviews
-
         if(reviews.length == 0) {
             $('#current-rating-nr').innerText = 'no reviews yet'
             return
         }
 
+        //Display each review
         let total_star_count = 0
-        reviews.forEach(function (review, index) {
-            total_star_count += parseInt(review.star_count)
+        reviews.forEach(function (item, index) {
+            total_star_count += parseInt(item.star_count)
 
             const stars_svg = drawStarsSVG()
+
+            let review = (item.review == null) ? '' : item.review
+
             let contentEl = `
-                            <p>${stars_svg} - <b>${review.star_count}</b> <i> ${review.review}</i> </p>
+                            <p>${stars_svg} - <b>${item.star_count}</b> <i> ${review}</i> </p>
                         `
             $('#reviews').insertAdjacentHTML('beforeend', contentEl)
 
             const el = $('#reviews').querySelectorAll('p')[index].querySelectorAll('path')
-            highlightRatingStar(el, review.star_count)
+            highlightRatingStar(el, item.star_count)
         });
 
         //Update current total rating
         const total = total_star_count / reviews.length
-        const el = $('#ratingstar-current').querySelectorAll('path')
+        const el = $('#current-ratingstar').querySelectorAll('path')
         highlightRatingStar(el, Math.ceil(total))
         $('#current-rating-nr').innerText = total.toFixed(2)
     })
@@ -80,7 +82,7 @@ function highlightRatingStar(el, total) {
 //================================================
 //Hover effect on rating star submission
 //================================================
-let rating_nr = 1
+let rating_nr = 0
 const ratingstar_submission = $('#ratingstar-submission').querySelectorAll('path')
 ratingstar_submission.forEach((item, index) => {
     item.addEventListener('mouseenter', function () {
@@ -115,10 +117,6 @@ function submitReview() {
         .then(function (data) {
             console.log(data)
             location.reload()
-            //TODO:
-            //Add new reviews
-            //Update Total Stars
-            //Immediate feedback
         })
         .catch(err => console.log(err))
 }
