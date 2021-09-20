@@ -16,7 +16,7 @@
     <br>
     <section>
         <div>
-            <span id="current-rating-nr"></span> &nbsp;
+            <span class="is-xl" id="current-rating-nr"></span> &nbsp;
             <span id="ratingstar-current"></span>
         </div>
 
@@ -24,11 +24,14 @@
         <button onclick="openModal()">Add Review</button>
         <div id="modal-root">
             <div class="modal">
+                <h3>What's your rating?</h3>  
                 <p>Rating</p>
                 <div id="ratingstar-submission"></div>
 
                 <p>Review</p>
-                <textarea placeholder="start typing.." id="" cols="30" rows="10"></textarea>
+                <textarea placeholder="start typing.." id="" cols="30" rows="2"></textarea>
+                <br>
+
                 <button>Submit Review</button>
             </div>
         </div>
@@ -75,7 +78,6 @@
                     $('#reviews').insertAdjacentHTML('beforeend', contentEl)
 
                     const el = $('#reviews').querySelectorAll('p')[index].querySelectorAll('path')
-                    console.log(review.star_count)
                     highlightRatingStar(el, review.star_count)
                 });
 
@@ -107,6 +109,24 @@
                 el[i].style.fill = '#FDCE6E'
             }
         }
+
+        //================================================
+        //Hover effect on rating star submission
+        //================================================
+        let rating_nr = 1
+        const ratingstar_submission = $('#ratingstar-submission').querySelectorAll('path')
+        ratingstar_submission.forEach((item, index) => {
+            item.addEventListener('mouseenter', function() {
+                rating_nr = index + 1
+                 for (let i=0; i<5; i++) {
+                     if(i < index+1) {
+                        ratingstar_submission[i].style.fill = '#FDCE6E'
+                    } else {
+                        ratingstar_submission[i].style.fill = '#C4C4C4'
+                    }
+                }
+            })
+        })
 
         //========================
         //Modal Toggle
