@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanilla Rating</title>
+    <link rel="stylesheet" href="assets/css/product.css">
+</head>
+
+<body>
+    <h1>Title</h1>
+    <h2>Body</h2>
+
+    <section>
+        <button onclick="openModal()">Add Review</button>
+        <div id="modal-root">
+            <div class="modal">
+                <p>Rating</p>
+                <p>Star SVG here</p>
+
+                <p>Review</p>
+                <textarea placeholder="start typing.." id="" cols="30" rows="10"></textarea>
+                <button>Submit Review</button>
+            </div>
+        </div>
+        
+        <b>Reviews</b>
+    </section>
+
+    <script src='/assets/js/main.js'></script>
+    <script>
+        //Get Key/Id from URL
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const key = urlParams.get('key')
+
+        //Load product by Key
+        fetch(`${baseURL}/products/${key}`)
+            .then(response => response.json())
+            .then(function (data) {
+                $('h1')[0].innerText = data.title
+                $('h2')[0].innerText = data.body
+
+                console.log(data)
+            })
+            .catch(err => console.log(err))
+
+        //Toggle Overlay
+        $('#modal-root').addEventListener('click', rootClick);
+        $('.modal')[0].addEventListener('click', modalClick);
+
+        function rootClick() {
+            $('#modal-root').classList.remove('visible');
+        }
+
+        function openModal() {
+            $('#modal-root').classList.add('visible');
+        }
+        
+        function modalClick(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+            return false;
+        }
+
+    </script>
+
+
+    <link rel="stylesheet" href="https://classless.de/classless.css">
+</body>
+
+</html>
