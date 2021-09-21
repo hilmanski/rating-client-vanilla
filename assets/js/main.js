@@ -1,4 +1,4 @@
-const baseURL = 'https://fakerating.deta.dev' //'http://localhost:5000'
+const baseURL = 'http://fakerating.us-3.evennode.com' //'http://localhost:5000'
 
 //custom selector
 function $(el) {
